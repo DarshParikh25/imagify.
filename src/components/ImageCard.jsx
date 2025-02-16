@@ -1,19 +1,17 @@
+// imagecard.jsx
 import PropTypes from 'prop-types';
 
-const ImageCard = ({imgs}) => {
+const ImageCard = (props) => {
   return (
-    <div>
-      <div className="container">
-        {imgs.forEach(img => {
-          console.log(img);
-        })}
-      </div>
-    </div>
+    <img id='dynamic-image' className='rounded-2xl hover:scale-105 hover:duration-[210ms]' src={props.image} alt=""/>
   )
 }
 
-ImageCard.prototype = {
-  props : PropTypes.object.isRequired,
-}
+ImageCard.propTypes = {
+  image: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.string,
+  ]),
+};
 
 export default ImageCard

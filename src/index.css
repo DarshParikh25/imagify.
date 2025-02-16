@@ -1,3 +1,4 @@
+/* index.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -14,6 +15,31 @@ html, body{
     width: 100%;
 }
 
-#logo h1{
-    font-family: "Yatra One", serif;
+#logo h1,
+#footer p{
+    font-family: "Space Grotesk", serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+#menu-items h3,
+::placeholder{
+    font-family: "Outfit", serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+#right{
+    -webkit-column-count: 4;
+    -moz-column-count: 4;
+    -webkit-column-gap: 20px;
+    -moz-column-gap: 20px;
+    column-gap: 20px;
+    column-count: 4;
+}
+
+#dynamic-image{
+    width: 100% !important;
+    height: auto !important;
+    margin-bottom: 20px;
 }
