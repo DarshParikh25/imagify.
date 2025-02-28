@@ -7,9 +7,9 @@ import { RiGalleryLine } from "react-icons/ri";
 const ProfileDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [userData] = useState({
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    joinDate: 'February 2025'
+    name: 'Michael Lewis',
+    email: 'lewis.michael007@example.com',
+    joinDate: 'Jan 1990'
   });
 
   return (
