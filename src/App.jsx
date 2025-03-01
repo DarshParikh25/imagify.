@@ -31,7 +31,19 @@ function App() {
           className="relative top-[17.25%] z-10 px-10"
         >
           {photos.map((photo) => (
-            <ImageCard key={photo.id} image={photo.urls.regular} alt={photo.alt_description} />
+            <ImageCard key={photo.id} image={photo.urls.regular} alt={photo.alt_description} download={photo.links.download} />
+          ))}
+          {photos.map((photo) => (
+            <ImageCard key={photo.id} image={photo.urls.regular} alt={photo.alt_description} download={photo.links.download} />
+          ))}
+          {photos.map((photo) => (
+            <ImageCard key={photo.id} image={photo.urls.regular} alt={photo.alt_description} download={photo.links.download} />
+          ))}
+          {photos.map((photo) => (
+            <ImageCard key={photo.id} image={photo.urls.regular} alt={photo.alt_description} download={photo.links.download} />
+          ))}
+          {photos.map((photo) => (
+            <ImageCard key={photo.id} image={photo.urls.regular} alt={photo.alt_description} download={photo.links.download} />
           ))}
         </div>
       </div>
