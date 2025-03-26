@@ -1,4 +1,3 @@
-/* index.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,9 +9,28 @@
     font-family: gilroy;
 }
 
-html, body{
+html,
+body {
     height: 100%;
     width: 100%;
+}
+
+body,
+#navbar,
+#footer,
+#menu-items,
+#profile {
+    transition: background-color 0.3s ease, color 0.1s ease;
+}
+
+body.light-mode {
+    background-color: white;
+    color: black;
+}
+
+body.dark-mode {
+    background-color: black;
+    color: white;
 }
 
 #logo h1,

@@ -12,14 +12,14 @@ const ImageCard = (props) => {
     e.stopPropagation();
     const link = document.createElement('a');
     link.href = props.image;
-    link.download = `${props.download}.jpg`
+    link.download = `${props.download}.png`
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
   // const handleDownload = () => {
-  //   saveAs(`${props.download}`, `${props.alt}.jpg`) // Put your image URL here.
+  //   saveAs(`${props.download}`, `${props.alt}.jpg`)
   // }
 
   const handleSave = (e) => {
