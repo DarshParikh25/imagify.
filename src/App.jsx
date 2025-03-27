@@ -1,8 +1,8 @@
 import NavLinks from "./components/NavLinks";
-import ImageCard from "./components/ImageCard";
 import Navbar from "./components/Navbar";
 import { useRef, useEffect, useState } from "react";
 import { darkThemeContext } from "./context/ContextAPI";
+import { Outlet } from "react-router-dom";
 
 function App() {
   const imageContainer = useRef();
@@ -36,21 +36,7 @@ function App() {
             id="right"
             className="relative top-[17.25%] z-10 px-10"
           >
-            {photos.map((photo) => (
-              <ImageCard key={photo.id} image={photo.urls.regular} alt={photo.alt_description} download={photo.links.download} />
-            ))}
-            {photos.map((photo) => (
-              <ImageCard key={photo.id} image={photo.urls.regular} alt={photo.alt_description} download={photo.links.download} />
-            ))}
-            {photos.map((photo) => (
-              <ImageCard key={photo.id} image={photo.urls.regular} alt={photo.alt_description} download={photo.links.download} />
-            ))}
-            {photos.map((photo) => (
-              <ImageCard key={photo.id} image={photo.urls.regular} alt={photo.alt_description} download={photo.links.download} />
-            ))}
-            {photos.map((photo) => (
-              <ImageCard key={photo.id} image={photo.urls.regular} alt={photo.alt_description} download={photo.links.download} />
-            ))}
+            <Outlet context={{ photos }}/>
           </div>
         </div>
       </div>

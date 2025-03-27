@@ -6,6 +6,7 @@ import { FiCompass, FiMessageSquare, FiBell } from "react-icons/fi";
 import ProfileDropdown from "./ProfileDropdown";
 import Footer from "./Footer";
 import { darkThemeContext } from "../context/ContextAPI";
+import { Link } from "react-router-dom";
 
 const NavLinks = () => {
   const { darkTheme } = useContext(darkThemeContext);
@@ -36,7 +37,8 @@ const NavLinks = () => {
           const isActive = activeItem === item.name;
           
           return (
-            <div
+            <Link
+              to={`/${item.name === "Home" ? "" : item.name.toLowerCase()}`}
               key={item.name}
               onClick={() => setActiveItem(item.name)}
               className={`
@@ -55,7 +57,7 @@ const NavLinks = () => {
                   <IoIosArrowForward />
                 </span>
               )}
-            </div>
+            </Link>
           );
         })}
       </div>
