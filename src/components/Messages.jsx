@@ -1,10 +1,9 @@
 const Messages = () => {
     return (
-        <div>
-            <h1>Messages</h1>
-            <p>Send and receive messages</p>
+        <div className="w-full h-[82.75vh] font-bold flex text-red-700 text-lg justify-center relative top-[17.25%] z-10 px-10">
+            <h1 className="text-red">No messages found.</h1>
         </div>
     )
 }
 
-export default Messages
+export default Messages 
