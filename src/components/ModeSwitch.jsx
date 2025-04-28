@@ -21,14 +21,14 @@ const ModeSwitch = () => {
 
     return (
         <label className="flex items-center cursor-pointer">
-            <div className="relative">
+            <div className="relative p-[1px] rounded-full shadow-inner">
                 <input 
                     type="checkbox" 
                     className="sr-only"
                 />
                 <div onClick={handleModeSwitch}>
                     <div className={`block transition duration-300 ${darkTheme ? "bg-[#111]" : "bg-gray-300"} border-2 border-white w-14 h-8 rounded-full`}></div>
-                    <div className={`dot flex justify-center items-center absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition duration-300 ${darkTheme ? "translate-x-full" : ""}`}>
+                    <div className={`dot flex justify-center items-center absolute left-[5px] top-[5px] bg-white w-6 h-6 rounded-full transition duration-300 ${darkTheme ? "translate-x-full" : ""}`}>
                         {darkTheme ? <img src="/src/assets/night-mode.png" alt="" /> : <img src="/src/assets/light-mode.png" alt="" />}
                     </div>
                 </div>

@@ -1,13 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useContext } from "react";
 import ImageCard from "./ImageCard";
+import { photosContext } from "../context/ContextAPI";
 
 const Home = () => {
     const imageContainer = useRef();
+
+    const { photos, setPhotos } = useContext(photosContext);
   
     const apiKey = import.meta.env.VITE_UNSPLASH_ACCESS_KEY
   
-    const [photos, setPhotos] = useState([])
-    
     useEffect(() => {
       fetch(`https://api.unsplash.com/photos/?client_id=${apiKey}`)
         .then((res) => {
@@ -17,7 +18,7 @@ const Home = () => {
           console.log(data)
           setPhotos(data)
         });
-    }, [apiKey]);
+    }, [apiKey, setPhotos]);
 
   return (
     <div
