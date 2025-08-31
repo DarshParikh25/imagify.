@@ -40,5 +40,9 @@ body {
 }
 
 .home {
-  background: linear-gradient(180deg, #0d1d25 0%, #667eea 100%);
+  background: linear-gradient(180deg, #0d1d25 0%, #27546a 50%, #3f91ba 100%);
+}
+
+.bg-overlay {
+  background: linear-gradient(180deg, transparent 0%, #000 100%);
 }

@@ -2,7 +2,7 @@ import FeatureCard from "./FeatureCard";
 
 const Features = () => {
   return (
-    <section id="features" className="flex flex-col gap-12 items-center py-10">
+    <section id="features" className="flex flex-col gap-12 items-center py-20">
       <h2 className="text-7xl font-semibold font-primary text-white">
         Features
       </h2>

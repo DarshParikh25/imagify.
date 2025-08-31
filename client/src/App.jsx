@@ -11,8 +11,8 @@ function App() {
         offsets={{
           hero: -100,
           about: -30,
-          features: -100,
-          explore: -100,
+          features: -30,
+          explore: -30,
           contact: -100,
         }}
       />
