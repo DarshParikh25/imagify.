@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+  width: 100%;
+}
+
+.font-primary {
+  font-family: "Pacifico", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.font-secondary {
+  font-family: "Outfit", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+#right {
+  -webkit-column-count: 4;
+  -moz-column-count: 4;
+  -webkit-column-gap: 20px;
+  -moz-column-gap: 20px;
+  column-gap: 20px;
+  column-count: 4;
+}
+
+#dynamic-image {
+  width: 100% !important;
+  height: auto !important;
+}
+
+.home {
+  background: linear-gradient(180deg, #0d1d25 0%, #667eea 100%);
+}
