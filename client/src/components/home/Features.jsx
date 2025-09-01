@@ -6,9 +6,10 @@ const Features = () => {
       <h2 className="text-7xl font-semibold font-primary text-white">
         Features
       </h2>
-      <div className="grid sm:grid-cols-2 grid-cols-1 font-secondary justify-items-center gap-20 text-center w-fit py-10">
+      <div className="grid lg:grid-cols-2 grid-cols-1 font-secondary justify-items-center gap-20 text-center w-fit py-10">
         {/* F1 */}
         <FeatureCard
+          rank={1}
           head={"AI-Powered Discovery"}
           subhead={"Find inspiration effortlessly."}
           desc={
@@ -18,6 +19,7 @@ const Features = () => {
 
         {/* F2 */}
         <FeatureCard
+          rank={2}
           head={"Effortless Upload & Creation"}
           subhead={"Bring ideas to life instantly."}
           desc={
@@ -27,6 +29,7 @@ const Features = () => {
 
         {/* F3 */}
         <FeatureCard
+          rank={3}
           head={"Smart Protection & Watermarking"}
           subhead={"Your creativity, your control."}
           desc={
@@ -36,6 +39,7 @@ const Features = () => {
 
         {/* F4 */}
         <FeatureCard
+          rank={4}
           head={"Personalized Dashboard"}
           subhead={"All your creativity in one place."}
           desc={

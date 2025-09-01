@@ -10,10 +10,10 @@ function App() {
       <ScrollHandler
         offsets={{
           hero: -100,
-          about: -30,
-          features: -30,
-          explore: -30,
-          contact: -100,
+          about: -80,
+          features: -50,
+          explore: -60,
+          contact: -50,
         }}
       />
       <ScrollToTop />

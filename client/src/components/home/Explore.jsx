@@ -37,7 +37,7 @@ const Explore = () => {
         {categories.map((category, index) => (
           <div
             key={index}
-            className="border border-gray-300 rounded-full px-6 py-2 cursor-pointer shadow-md"
+            className="border border-gray-300 rounded-full px-6 py-2 cursor-pointer hover:shadow-md"
           >
             <p>{category}</p>
           </div>
