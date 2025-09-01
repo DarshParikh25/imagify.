@@ -52,10 +52,10 @@ const About = () => {
         </div>
       </div>
       <div className="flex gap-10 text-md font-medium">
-        <button className="bg-white text-black px-5 py-2 rounded-lg">
+        <button className="bg-white text-black px-5 py-2 rounded-lg font-bold hover:bg-[#ddd] transition-all duration-300">
           Join Today
         </button>
-        <button className="border-2 border-white px-5 py-2 rounded-lg">
+        <button className="border-2 border-white px-5 py-2 rounded-lg font-bold bg-transparent hover:bg-[#21475a] transition-all duration-300">
           Start Creating
         </button>
       </div>

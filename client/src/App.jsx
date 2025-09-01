@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Gallery from "./pages/Gallery";
 import ScrollToTop from "./utils/ScrollToTop";
 import ScrollHandler from "./utils/ScrollHandler";
+import LandingFooter from "./components/LandingFooter";
 
 function App() {
   return (
@@ -18,7 +19,15 @@ function App() {
       />
       <ScrollToTop />
       <Routes>
-        <Route path={"/"} element={<Home />} />
+        <Route
+          path={"/"}
+          element={
+            <>
+              <Home />
+              <LandingFooter />
+            </>
+          }
+        />
         <Route path={"/posts"} element={<Gallery />} />
       </Routes>
     </div>

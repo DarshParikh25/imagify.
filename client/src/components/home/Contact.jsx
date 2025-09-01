@@ -14,7 +14,7 @@ const Contact = () => {
           <p className="font-secondary">We’d love to hear from you!</p>
         </div>
       </div>
-      <div className="bg-black/20 backdrop-blur-xl py-16 px-20 rounded-2xl my-5">
+      <div className="bg-black/20 backdrop-blur-xl py-16 px-20 rounded-2xl my-5 shadow-lg">
         <form
           onSubmit={handleFormSubmit}
           className="text-white w-96 flex flex-col gap-7 py-5"
@@ -51,13 +51,13 @@ const Contact = () => {
             <textarea
               name=""
               id=""
-              placeholder="Have questions, feedback, or collaboration ideas? Feel free to tell us!"
+              placeholder="Have questions, feedback, or collaboration ideas? Feel free to connect!"
               className="bg-transparent outline-none border-b-2 border-gray-400 focus:border-white transition-all duration-300"
             ></textarea>
           </div>
           <button
             type="submit"
-            className="bg-white rounded-lg text-black font-bold px-5 py-2 mt-5"
+            className="bg-white rounded-lg text-black font-bold px-5 py-2 mt-5 hover:bg-[#ddd] transition-all duration-300"
           >
             Send Message
           </button>

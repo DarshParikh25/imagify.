@@ -51,3 +51,7 @@ textarea::placeholder {
 .bg-overlay {
   background: linear-gradient(180deg, transparent 0%, #000 100%);
 }
+
+.bg-footer {
+  background: linear-gradient(180deg, #3881a5 0%, #22485c 50%, #0d1d25 100%);
+}

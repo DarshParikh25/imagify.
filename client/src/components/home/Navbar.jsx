@@ -25,7 +25,7 @@ const Navbar = () => {
         }}
         className="w-32 cursor-pointer"
       />
-      <ul className="flex gap-16 ">
+      <ul className="flex gap-16">
         <HashLink smooth to="/#hero" className="cursor-pointer">
           Home
         </HashLink>
@@ -43,10 +43,10 @@ const Navbar = () => {
         </HashLink>
       </ul>
       <div className="flex gap-7">
-        <button className="bg-white text-black px-5 py-2 rounded-lg text-md font-bold">
+        <button className="bg-white text-black px-5 py-2 rounded-lg text-md font-bold hover:bg-[#ddd] transition-all duration-300">
           Upload
         </button>
-        <button className="border-2 border-white px-5 py-2 rounded-lg text-md font-bold">
+        <button className="border-2 border-white px-5 py-2 rounded-lg text-md font-bold bg-transparent hover:bg-[#142e3a] transition-all duration-300">
           Login
         </button>
       </div>

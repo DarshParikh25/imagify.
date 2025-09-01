@@ -71,7 +71,7 @@ const Explore = () => {
           </div>
         ))}
       </div>
-      <button className="font-semibold bg-white px-6 py-2.5 rounded-lg mb-10">
+      <button className="font-bold bg-white px-6 py-2.5 rounded-lg mb-10 hover:bg-[#ddd] transition-all duration-300">
         Start Exploring
       </button>
     </section>

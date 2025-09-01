@@ -15,10 +15,10 @@ const Hero = () => {
           </p>
         </div>
         <div className="flex gap-10 mt-10">
-          <button className="w-fit bg-white text-black px-6 py-2.5 rounded-lg font-semibold text-lg">
+          <button className="w-fit bg-white text-black px-6 py-2.5 rounded-lg font-semibold text-lg hover:bg-[#ddd] transition-all duration-300">
             Explore Content
           </button>
-          <button className="w-fit bg-transparent px-6 py-2.5 rounded-lg font-semibold border-2 border-white text-lg">
+          <button className="w-fit bg-transparent px-6 py-2.5 rounded-lg font-semibold border-2 border-white text-lg hover:bg-[#16303e] transition-all duration-300">
             Upload Your Image
           </button>
         </div>
