@@ -1,8 +1,12 @@
+import { useContext } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
+import AppContext from "../../context/AppContext";
 
 const Navbar = () => {
+  const { changeDir, isLoggedIn } = useContext(AppContext);
+
   const navigate = useNavigate();
 
   const isScrolled = useSelector((state) => state.ui.scrolled);
@@ -43,10 +47,22 @@ const Navbar = () => {
         </HashLink>
       </ul>
       <div className="flex gap-7">
-        <button className="bg-white text-black px-5 py-2 rounded-lg text-md font-bold hover:bg-[#ddd] transition-all duration-300">
+        <button
+          onClick={() => {
+            changeDir("/signup");
+          }}
+          className="bg-white text-black px-5 py-2 rounded-lg text-md font-bold hover:bg-[#ddd] transition-all duration-300"
+        >
           Upload
         </button>
-        <button className="border-2 border-white px-5 py-2 rounded-lg text-md font-bold bg-transparent hover:bg-[#142e3a] transition-all duration-300">
+        <button
+          onClick={() => {
+            navigate("/login");
+          }}
+          className={`${
+            isLoggedIn ? "hidden" : "block"
+          } border-2 border-white px-5 py-2 rounded-lg text-md font-bold bg-transparent hover:bg-[#ffffff10] transition-all duration-300`}
+        >
           Login
         </button>
       </div>

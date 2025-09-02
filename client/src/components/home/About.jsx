@@ -1,10 +1,19 @@
+import { useContext } from "react";
+import AppContext from "../../context/AppContext";
+
 const About = () => {
+  const { changeDir } = useContext(AppContext);
   return (
     <section
       id="about"
       className="flex flex-col text-white font-secondary py-24 gap-20 items-center"
     >
-      <img src="/logo.png" alt="website-branding" className="w-48 md:w-72" />
+      <img
+        src="/logo.png"
+        alt="website-branding"
+        loading="lazy"
+        className="w-48 md:w-72"
+      />
       <div className="grid lg:grid-cols-3 grid-cols-1">
         {/* Who We Are */}
         <div className="flex flex-col gap-5 px-7 sm:px-20 py-5 border-r-2 border-white">
@@ -51,11 +60,23 @@ const About = () => {
           </p>
         </div>
       </div>
+
+      {/* CTAs */}
       <div className="flex gap-10 text-md font-medium">
-        <button className="bg-white text-black px-5 py-2 rounded-lg font-bold hover:bg-[#ddd] transition-all duration-300">
+        <button
+          onClick={() => {
+            changeDir("/posts");
+          }}
+          className="bg-white text-black px-5 py-2 rounded-lg font-bold hover:bg-[#ddd] transition-all duration-300"
+        >
           Join Today
         </button>
-        <button className="border-2 border-white px-5 py-2 rounded-lg font-bold bg-transparent hover:bg-[#21475a] transition-all duration-300">
+        <button
+          onClick={() => {
+            changeDir("/upload");
+          }}
+          className="border-2 border-white px-5 py-2 rounded-lg font-bold bg-transparent hover:bg-[#21475a] transition-all duration-300"
+        >
           Start Creating
         </button>
       </div>

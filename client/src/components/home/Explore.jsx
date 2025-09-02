@@ -1,4 +1,9 @@
+import { useContext } from "react";
+import AppContext from "../../context/AppContext";
+
 const Explore = () => {
+  const { changeDir } = useContext(AppContext);
+
   // Will later on take the images from the database
   const images = [
     "/first.jpg",
@@ -37,6 +42,9 @@ const Explore = () => {
         {categories.map((category, index) => (
           <div
             key={index}
+            onClick={() => {
+              changeDir("/posts"); // Will later on change to the actual path to which the user will be redirected on clicking the category
+            }}
             className="border border-gray-300 rounded-full px-6 py-2 cursor-pointer hover:shadow-md"
           >
             <p>{category}</p>
@@ -49,9 +57,12 @@ const Explore = () => {
         {images.map((image, index) => (
           <div
             key={index}
+            onClick={() => {
+              changeDir("/posts"); // Will later on change to the actual path to which the user will be redirected on clicking the image
+            }}
             className="group h-[30rem] w-full rounded-xl overflow-hidden relative cursor-pointer shadow-lg"
           >
-            <div className="absolute group-hover:opacity-100 opacity-0 bottom-0 bg-overlay transition-opacity w-full h-full duration-300 z-10 flex items-end">
+            <div className="absolute group-hover:opacity-100 opacity-0 bottom-0 bg-overlay transition-opacity w-full h-full duration-500 z-10 flex items-end">
               <div className="flex flex-wrap text-white p-4">
                 {imgCat.map((category, index) => (
                   <div
@@ -66,12 +77,18 @@ const Explore = () => {
             <img
               src={image}
               alt=""
+              loading="lazy"
               className="w-full h-full object-cover object-center"
             />
           </div>
         ))}
       </div>
-      <button className="font-bold bg-white px-6 py-2.5 rounded-lg mb-10 hover:bg-[#ddd] transition-all duration-300">
+      <button
+        onClick={() => {
+          changeDir("/posts");
+        }}
+        className="font-bold bg-white px-6 py-2.5 rounded-lg mb-10 hover:bg-[#ddd] transition-all duration-300"
+      >
         Start Exploring
       </button>
     </section>

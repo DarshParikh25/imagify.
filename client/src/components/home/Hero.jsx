@@ -1,4 +1,8 @@
+import { useContext } from "react";
+import AppContext from "../../context/AppContext";
+
 const Hero = () => {
+  const { changeDir } = useContext(AppContext);
   return (
     <section
       id="hero"
@@ -15,10 +19,20 @@ const Hero = () => {
           </p>
         </div>
         <div className="flex gap-10 mt-10">
-          <button className="w-fit bg-white text-black px-6 py-2.5 rounded-lg font-semibold text-lg hover:bg-[#ddd] transition-all duration-300">
+          <button
+            onClick={() => {
+              changeDir("/posts");
+            }}
+            className="w-fit bg-white text-black px-6 py-2.5 rounded-lg font-semibold text-lg hover:bg-[#ddd] transition-all duration-300"
+          >
             Explore Content
           </button>
-          <button className="w-fit bg-transparent px-6 py-2.5 rounded-lg font-semibold border-2 border-white text-lg hover:bg-[#16303e] transition-all duration-300">
+          <button
+            onClick={() => {
+              changeDir("/upload");
+            }}
+            className="w-fit bg-transparent px-6 py-2.5 rounded-lg font-semibold border-2 border-white text-lg hover:bg-[#16303e] transition-all duration-300"
+          >
             Upload Your Image
           </button>
         </div>
@@ -26,13 +40,28 @@ const Hero = () => {
       </div>
       <div className="w-full relative">
         <div className="left-52 top-10 absolute -rotate-[7deg] w-[250px] h-[350px] bg-white flex justify-center items-center z-20">
-          <img src="/first.jpg" alt="" className="w-[200px] h-[300px]" />
+          <img
+            src="/first.jpg"
+            alt=""
+            loading="lazy"
+            className="w-[200px] h-[300px]"
+          />
         </div>
         <div className="left-96 top-56 rotate-[20deg] absolute w-[250px] h-[350px] bg-white flex justify-center items-center z-30">
-          <img src="/second.jpg" alt="" className="w-[200px] h-[300px]" />
+          <img
+            src="/second.jpg"
+            alt=""
+            loading="lazy"
+            className="w-[200px] h-[300px]"
+          />
         </div>
         <div className="left-14 top-60 -rotate-[25deg] absolute w-[250px] h-[350px] bg-white flex justify-center items-center z-10">
-          <img src="/third.jpg" alt="" className="w-[200px] h-[300px]" />
+          <img
+            src="/third.jpg"
+            alt=""
+            loading="lazy"
+            className="w-[200px] h-[300px]"
+          />
         </div>
       </div>
     </section>

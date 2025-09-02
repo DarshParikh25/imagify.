@@ -4,6 +4,8 @@ import Gallery from "./pages/Gallery";
 import ScrollToTop from "./utils/ScrollToTop";
 import ScrollHandler from "./utils/ScrollHandler";
 import LandingFooter from "./components/LandingFooter";
+import Login from "./components/Login";
+import Signup from "./components/SIgnup";
 
 function App() {
   return (
@@ -11,7 +13,7 @@ function App() {
       <ScrollHandler
         offsets={{
           hero: -100,
-          about: -80,
+          about: -30,
           features: -50,
           explore: -60,
           contact: -50,
@@ -29,6 +31,8 @@ function App() {
           }
         />
         <Route path={"/posts"} element={<Gallery />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     </div>
   );

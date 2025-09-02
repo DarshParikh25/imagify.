@@ -10,9 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.0.0",
     "@reduxjs/toolkit": "^2.8.2",
     "dotenv": "^16.4.7",
     "file-saver": "^2.0.5",
+    "framer-motion": "^12.23.12",
     "lucide-react": "^0.263.1",
     "prop-types": "^15.8.1",
     "props-type": "^1.0.1",

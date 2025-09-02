@@ -55,3 +55,11 @@ textarea::placeholder {
 .bg-footer {
   background: linear-gradient(180deg, #3881a5 0%, #22485c 50%, #0d1d25 100%);
 }
+
+.bg-login {
+  background-image: url("login.jpg");
+}
+
+.bg-signup {
+  background-image: url("signup.jpg");
+}

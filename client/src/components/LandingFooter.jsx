@@ -20,6 +20,7 @@ const LandingFooter = () => {
               behavior: "smooth",
             });
           }}
+          loading="lazy"
           className="w-56 cursor-pointer"
         />
         <div className="flex flex-col justify-center gap-3">

@@ -14,7 +14,7 @@ const Contact = () => {
           <p className="font-secondary">We’d love to hear from you!</p>
         </div>
       </div>
-      <div className="bg-black/20 backdrop-blur-xl py-16 px-20 rounded-2xl my-5 shadow-lg">
+      <div className="bg-black/20 backdrop-blur-xl py-16 px-20 rounded-3xl my-5 shadow-lg">
         <form
           onSubmit={handleFormSubmit}
           className="text-white w-96 flex flex-col gap-7 py-5"
