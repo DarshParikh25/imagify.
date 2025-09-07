@@ -6,6 +6,7 @@ import ScrollHandler from "./utils/ScrollHandler";
 import LandingFooter from "./components/LandingFooter";
 import Login from "./components/Login";
 import Signup from "./components/SIgnup";
+import ProtectedRoute from "./utils/ProtectedRoute";
 
 function App() {
   return (
@@ -30,7 +31,14 @@ function App() {
             </>
           }
         />
-        <Route path={"/posts"} element={<Gallery />} />
+        <Route
+          path={"/posts"}
+          element={
+            <ProtectedRoute>
+              <Gallery />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>

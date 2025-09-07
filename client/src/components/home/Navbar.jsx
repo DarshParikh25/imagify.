@@ -13,7 +13,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`sticky top-0 w-full px-20 py-6 flex items-center justify-between text-white font-secondary z-50 transition-all duration-200 ${
+      className={`sticky top-0 w-full px-20 py-6 flex items-center justify-between text-white z-50 transition-all duration-200 ${
         isScrolled ? "backdrop-blur-md bg-white/10 shadow-lg" : "bg-transparent"
       }`}
     >

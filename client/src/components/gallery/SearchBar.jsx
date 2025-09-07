@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { IoMdCloseCircleOutline } from "react-icons/io";
+import ThemeSlider from "./ThemeSlider";
+import { useSelector } from "react-redux";
 
 const SearchBar = () => {
   const [searchValue, setSearchValue] = useState("");
   const [isFocused, setIsFocused] = useState(false);
+
+  const isDark = useSelector((state) => state.ui.isDark);
 
   const handleClear = () => {
     setSearchValue("");
@@ -22,9 +26,11 @@ const SearchBar = () => {
   return (
     <div
       id="navbar"
-      className={`bg-white pr-10 py-8 pl-6 ml-4 w-[80%] flex items-start justify-between fixed z-20`}
+      className={`${
+        isDark ? "bg-[#111]" : "bg-white"
+      } pr-10 py-8 pl-6 ml-4 w-[80%] flex items-center justify-between fixed z-20 transition-all duration-500`}
     >
-      <div className="relative w-full">
+      <div className="relative w-[90%]">
         <div
           id="search"
           className={`flex items-center border-2 border-solid ${
@@ -77,6 +83,7 @@ const SearchBar = () => {
           </ul>
         )}
       </div>
+      <ThemeSlider />
     </div>
   );
 };
