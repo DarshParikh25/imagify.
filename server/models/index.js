@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import userModel from "./user.js";
 import planModel from "./plan.js";
 import subscriptionModel from "./subscription.js";
+import imageModel from "./image.js";
 
 dotenv.config();
 
@@ -21,14 +22,18 @@ const sequelize = new Sequelize(
 const User = userModel(sequelize, DataTypes);
 const Plan = planModel(sequelize, DataTypes);
 const Subscription = subscriptionModel(sequelize, DataTypes);
+const Image = imageModel(sequelize, DataTypes);
 
 User.belongsTo(Plan, { foreignKey: "plan_id", as: "plan" });
 User.hasMany(Subscription, { foreignKey: "user_id", as: "subscriptions" });
+User.hasMany(Image, { foreignKey: "user_id", as: "images" });
 
 Plan.hasMany(User, { foreignKey: "plan_id", as: "users" });
-Plan.hasMany(Subscription, { foreignKey: "plan_id", as: "plans" });
+Plan.hasMany(Subscription, { foreignKey: "plan_id", as: "subscriptions" });
 
 Subscription.belongsTo(User, { foreignKey: "user_id", as: "user" });
 Subscription.belongsTo(Plan, { foreignKey: "plan_id", as: "plan" });
 
-export { sequelize, User, Plan };
+Image.belongsTo(User, { foreignKey: "user_id", as: "user" });
+
+export { sequelize, User, Plan, Subscription, Image };
