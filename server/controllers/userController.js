@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 // Sign Up
 export const signup = async (req, res) => {
@@ -12,6 +13,13 @@ export const signup = async (req, res) => {
       });
     }
 
+    if (password.length < 8 || password.length > 15) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must be of 8 to 15 characters.",
+      });
+    }
+
     if (password !== confirmPassword) {
       return res.status(400).json({
         success: false,
@@ -20,7 +28,7 @@ export const signup = async (req, res) => {
     }
 
     // Check whether the user has already signed up earlier or not(const user)
-
+    const user = await User.findOne({ where: email });
     if (user) {
       return res.status(409).json({
         success: false,
@@ -45,16 +53,24 @@ export const signup = async (req, res) => {
     console.log(newUserData.joinedAt);
 
     // Logic to add user data to the PostgreSQL DB
+    const newUser = await User.create(newUserData);
 
     // Logic to create user token using id
+    const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRES_IN || "1d",
+    });
 
     return res.status(201).json({
       success: true,
       message:
-        "Signed up successfully! 🎉 You’re now ready to explore visuals that inspire your imagination.",
-      // token,
+        "Signed up successfully! You’re now ready to explore visuals that inspire your imagination.",
+      token,
       user: {
         // details to share to the frontend like name, email, joining month
+        id: newUser.id,
+        name: newUser.name,
+        email: newUser.email,
+        joinedAt: newUser.joinedAt,
       },
     });
   } catch (error) {
@@ -78,9 +94,9 @@ export const login = async (req, res) => {
       });
     }
 
-    // Check for the email in the PostgreSQL DB (const user)
-
-    if (!user) {
+    // Check for the email in the PostgreSQL DB (const existingUser)
+    const existingUser = await User.findOne({ where: email });
+    if (!existingUser) {
       return res.status(401).json({
         success: false,
         message: "User does not exists! Please sign up first.",
@@ -88,7 +104,6 @@ export const login = async (req, res) => {
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
-
     if (!isPasswordValid) {
       return res.status(401).json({
         success: false,
@@ -97,13 +112,21 @@ export const login = async (req, res) => {
     }
 
     // Logic to create the token using id
+    const token = jwt.sign({ id: existingUser.id }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRES_IN,
+    });
 
     return res.status(200).json({
       success: true,
       message:
-        "Access granted! 🎉 Jump right in and continue your creative journey.",
+        "Access granted! Jump right in and continue your creative journey.",
+      token,
       user: {
         // details to share to the frontend like name, email, joining month
+        id: existingUser.id,
+        name: existingUser.name,
+        email: existingUser.email,
+        joinedAt: existingUser.joinedAt,
       },
     });
   } catch (error) {

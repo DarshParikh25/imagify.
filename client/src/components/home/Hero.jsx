@@ -3,6 +3,7 @@ import AppContext from "../../context/AppContext";
 
 const Hero = () => {
   const { changeDir } = useContext(AppContext);
+
   return (
     <section
       id="hero"
