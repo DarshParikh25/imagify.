@@ -50,10 +50,12 @@ export default (sequelize, DataTypes) => {
       },
       url: {
         allowNull: false,
+        unique: true,
         type: DataTypes.STRING,
       },
       thumbnail_url: {
         allowNull: false,
+        unique: true,
         type: DataTypes.STRING,
       },
       likes: {

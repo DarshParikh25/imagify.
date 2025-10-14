@@ -13,20 +13,44 @@ export async function up(queryInterface, Sequelize) {
     user_id: {
       allowNull: false,
       type: Sequelize.INTEGER,
+      references: {
+        model: "Users",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE",
     },
     category_id: {
       allowNull: false,
       type: Sequelize.INTEGER,
+      references: {
+        model: "Categorys",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE",
     },
     license_id: {
       allowNull: true,
       defaultValue: null,
       type: Sequelize.INTEGER,
+      references: {
+        model: "Licenses",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE",
     },
     watermark_id: {
       allowNull: true,
       defaultValue: null,
       type: Sequelize.INTEGER,
+      references: {
+        model: "Watermarks",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE",
     },
     title: {
       allowNull: false,
@@ -52,10 +76,12 @@ export async function up(queryInterface, Sequelize) {
     },
     url: {
       allowNull: false,
+      unique: true,
       type: Sequelize.STRING,
     },
     thumbnail_url: {
       allowNull: false,
+      unique: true,
       type: Sequelize.STRING,
     },
     likes: {
