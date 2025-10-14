@@ -6,6 +6,8 @@ import planModel from "./plan.js";
 import subscriptionModel from "./subscription.js";
 import imageModel from "./image.js";
 import categoryModel from "./category.js";
+import tagModel from "./tag.js";
+import imagetagModel from "./imagetag.js";
 
 dotenv.config();
 
@@ -25,6 +27,8 @@ const Plan = planModel(sequelize, DataTypes);
 const Subscription = subscriptionModel(sequelize, DataTypes);
 const Image = imageModel(sequelize, DataTypes);
 const Category = categoryModel(sequelize, DataTypes);
+const Tag = tagModel(sequelize, DataTypes);
+const ImageTag = imagetagModel(sequelize, DataTypes);
 
 User.belongsTo(Plan, { foreignKey: "plan_id", as: "plan" });
 Plan.hasMany(User, { foreignKey: "plan_id", as: "users" });
@@ -53,5 +57,18 @@ Subscription.belongsTo(Plan, { foreignKey: "plan_id", as: "plan" });
 
 Image.belongsTo(Category, { foreignKey: "category_id", as: "category" });
 Category.hasMany(Image, { foreignKey: "category_id", as: "images" });
+
+Image.belongsToMany(Tag, {
+  through: ImageTag,
+  foreignKey: "image_id",
+  otherKey: "tag_id",
+  as: "tags",
+});
+Tag.belongsToMany(Image, {
+  through: ImageTag,
+  foreignKey: "tag_id",
+  otherKey: "image_key",
+  as: "images",
+});
 
 export { sequelize, User, Plan, Subscription, Image };
