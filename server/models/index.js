@@ -10,6 +10,7 @@ import tagModel from "./tag.js";
 import imagetagModel from "./imagetag.js";
 import licenseModel from "./license.js";
 import vulnerabilitycheckModel from "./vulnerabilitycheck.js";
+import paymentModel from "./payment.js";
 
 dotenv.config();
 
@@ -33,6 +34,7 @@ const Tag = tagModel(sequelize, DataTypes);
 const ImageTag = imagetagModel(sequelize, DataTypes);
 const License = licenseModel(sequelize, DataTypes);
 const VulnerabilityCheck = vulnerabilitycheckModel(sequelize, DataTypes);
+const Payment = paymentModel(sequelize, DataTypes);
 
 User.belongsTo(Plan, { foreignKey: "plan_id", as: "plan" });
 Plan.hasMany(User, { foreignKey: "plan_id", as: "users" });
@@ -83,6 +85,12 @@ Image.hasMany(VulnerabilityCheck, {
   as: "vulnerabilities",
 });
 VulnerabilityCheck.belongsTo(Image, { foreignKey: "image_id", as: "image" });
+
+User.hasMany(Payment, { foreignKey: "user_id", as: "payments" });
+Payment.belongsTo(User, { foreignKey: "user_id", as: "user" });
+
+Plan.hasMany(Payment, { foreignKey: "plan_id", as: "payments" });
+Payment.belongsTo(Plan, { foreignKey: "plan_id", as: "plan" });
 
 // watermark_id - image
 // reviewer_id - license
