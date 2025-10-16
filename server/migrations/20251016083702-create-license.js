@@ -36,6 +36,7 @@ export async function up(queryInterface, Sequelize) {
       type: Sequelize.STRING,
     },
     status: {
+      allowNull: false,
       defaultValue: "pending",
       type: Sequelize.ENUM("pending", "approved", "rejected"),
     },

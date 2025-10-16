@@ -26,6 +26,7 @@ export default (sequelize, DataTypes) => {
         },
       },
       status: {
+        allowNull: false,
         defaultValue: "pending",
         type: DataTypes.ENUM("pending", "approved", "rejected"),
       },
