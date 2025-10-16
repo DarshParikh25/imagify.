@@ -8,6 +8,7 @@ import imageModel from "./image.js";
 import categoryModel from "./category.js";
 import tagModel from "./tag.js";
 import imagetagModel from "./imagetag.js";
+import licenseModel from "./license.js";
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ const Image = imageModel(sequelize, DataTypes);
 const Category = categoryModel(sequelize, DataTypes);
 const Tag = tagModel(sequelize, DataTypes);
 const ImageTag = imagetagModel(sequelize, DataTypes);
+const License = licenseModel(sequelize, DataTypes);
 
 User.belongsTo(Plan, { foreignKey: "plan_id", as: "plan" });
 Plan.hasMany(User, { foreignKey: "plan_id", as: "users" });
@@ -70,5 +72,8 @@ Tag.belongsToMany(Image, {
   otherKey: "image_key",
   as: "images",
 });
+
+Image.hasOne(License, { foreignKey: "image_id", as: "license" });
+License.belongsTo(Image, { foreignKey: "image_id", as: "image" });
 
 export { sequelize, User, Plan, Subscription, Image };

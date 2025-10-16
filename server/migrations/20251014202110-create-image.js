@@ -30,17 +30,6 @@ export async function up(queryInterface, Sequelize) {
       onUpdate: "CASCADE",
       onDelete: "CASCADE",
     },
-    license_id: {
-      allowNull: true,
-      defaultValue: null,
-      type: Sequelize.INTEGER,
-      references: {
-        model: "Licenses",
-        key: "id",
-      },
-      onUpdate: "CASCADE",
-      onDelete: "CASCADE",
-    },
     watermark_id: {
       allowNull: true,
       defaultValue: null,

@@ -16,11 +16,6 @@ export default (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.INTEGER,
       },
-      license_id: {
-        allowNull: true,
-        defaultValue: null,
-        type: DataTypes.INTEGER,
-      },
       watermark_id: {
         allowNull: true,
         defaultValue: null,
