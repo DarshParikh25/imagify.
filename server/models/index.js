@@ -15,6 +15,7 @@ import refundModel from "./refund.js";
 import violationModel from "./violation.js";
 import adminModel from "./admin.js";
 import likeModel from "./like.js";
+import shareModel from "./share.js";
 
 dotenv.config();
 
@@ -43,6 +44,7 @@ const Refund = refundModel(sequelize, DataTypes);
 const Violation = violationModel(sequelize, DataTypes);
 const Admin = adminModel(sequelize, DataTypes);
 const Like = likeModel(sequelize, DataTypes);
+const Share = shareModel(sequelize, DataTypes);
 
 // associations
 User.belongsTo(Plan, { foreignKey: "plan_id", as: "plan" });
@@ -135,6 +137,12 @@ Image.belongsToMany(User, {
   as: "likedByUsers",
 });
 
+User.hasMany(Share, { foreignKey: "user_id", as: "shares" });
+Share.belongsTo(User, { foreignKey: "user_id", as: "user" });
+
+Image.hasMany(Share, { foreignKey: "image_id", as: "shares" });
+Share.belongsTo(Image, { foreignKey: "image_id", as: "image" });
+
 export {
   sequelize,
   User,
@@ -149,4 +157,7 @@ export {
   Payment,
   Refund,
   Violation,
+  Admin,
+  Like,
+  Share,
 };
