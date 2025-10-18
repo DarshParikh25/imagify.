@@ -12,6 +12,7 @@ import licenseModel from "./license.js";
 import vulnerabilitycheckModel from "./vulnerabilitycheck.js";
 import paymentModel from "./payment.js";
 import refundModel from "./refund.js";
+import violationModel from "./violation.js";
 
 dotenv.config();
 
@@ -37,6 +38,7 @@ const License = licenseModel(sequelize, DataTypes);
 const VulnerabilityCheck = vulnerabilitycheckModel(sequelize, DataTypes);
 const Payment = paymentModel(sequelize, DataTypes);
 const Refund = refundModel(sequelize, DataTypes);
+const Violation = violationModel(sequelize, DataTypes);
 
 User.belongsTo(Plan, { foreignKey: "plan_id", as: "plan" });
 Plan.hasMany(User, { foreignKey: "plan_id", as: "users" });
@@ -97,6 +99,12 @@ Payment.belongsTo(Plan, { foreignKey: "plan_id", as: "plan" });
 Payment.hasMany(Refund, { foreignKey: "payment_id", as: "refunds" });
 Refund.belongsTo(Payment, { foreignKey: "payment_id", as: "payment" });
 
+User.hasMany(Violation, { foreignKey: "user_id", as: "violations" });
+Violation.belongsTo(User, { foreignKey: "user_id", as: "user" });
+
+Image.hasMany(Violation, { foreignKey: "image_id", as: "violations" });
+Violation.belongsTo(Image, { foreignKey: "image_id", as: "image" });
+
 // watermark_id - image
 // reviewer_id - license
 // reviewer_id - vulnerabilityCheck
@@ -114,4 +122,5 @@ export {
   VulnerabilityCheck,
   Payment,
   Refund,
+  Violation,
 };

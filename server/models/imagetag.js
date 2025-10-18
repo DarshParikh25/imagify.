@@ -20,6 +20,7 @@ export default (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "ImageTag",
+      timestamps: true,
     }
   );
 

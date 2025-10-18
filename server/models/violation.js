@@ -3,40 +3,42 @@
 import { Model } from "sequelize";
 
 export default (sequelize, DataTypes) => {
-  class VulnerabilityCheck extends Model {
+  class Violation extends Model {
     static associate(models) {}
   }
 
-  VulnerabilityCheck.init(
+  Violation.init(
     {
+      user_id: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+      },
       image_id: {
         allowNull: false,
         type: DataTypes.INTEGER,
       },
-      type: {
-        allowNull: false,
-        defaultValue: "automated",
-        type: DataTypes.ENUM("automated", "manual"),
-      },
-      level: {
+      severity: {
         allowNull: false,
         type: DataTypes.ENUM("low", "medium", "high"),
       },
-      status: {
+      action_taken: {
         allowNull: false,
-        type: DataTypes.ENUM("passed", "rejected", "pending"),
+        type: DataTypes.ENUM("warning", "frozen", "blacklisted"),
       },
-      reviewer_id: {
+      charged_amount: {
         allowNull: true,
-        type: DataTypes.INTEGER,
+        type: DataTypes.DECIMAL(10, 2),
+        validate: {
+          min: 0.01,
+        },
       },
     },
     {
       sequelize,
-      modelName: "VulnerabilityCheck",
+      modelName: "Violation",
       timestamps: true,
     }
   );
 
-  return VulnerabilityCheck;
+  return Violation;
 };

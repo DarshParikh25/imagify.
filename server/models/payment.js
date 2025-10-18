@@ -20,6 +20,9 @@ export default (sequelize, DataTypes) => {
       amount: {
         allowNull: false,
         type: DataTypes.DECIMAL(10, 2),
+        validate: {
+          min: 0.01,
+        },
       },
       type: {
         allowNull: false,
@@ -42,6 +45,8 @@ export default (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Payment",
+      timestamps: true,
+      updatedAt: false,
     }
   );
 

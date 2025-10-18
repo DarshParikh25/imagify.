@@ -6,6 +6,7 @@ export default (sequelize, DataTypes) => {
   class Image extends Model {
     static associate(models) {}
   }
+
   Image.init(
     {
       user_id: {
@@ -72,6 +73,7 @@ export default (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Image",
+      timestamps: true,
     }
   );
 

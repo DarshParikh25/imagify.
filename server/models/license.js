@@ -38,6 +38,7 @@ export default (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "License",
+      timestamps: true,
     }
   );
 

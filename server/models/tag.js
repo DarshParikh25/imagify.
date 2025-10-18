@@ -17,6 +17,7 @@ export default (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Tag",
+      timestamps: true,
     }
   );
 

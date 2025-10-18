@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 
 export async function up(queryInterface, Sequelize) {
-  await queryInterface.createTable("Payments", {
+  await queryInterface.createTable("Violations", {
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -20,45 +20,40 @@ export async function up(queryInterface, Sequelize) {
       onUpdate: "CASCADE",
       onDelete: "CASCADE",
     },
-    plan_id: {
-      allowNull: true,
+    image_id: {
+      allowNull: false,
       type: Sequelize.INTEGER,
       references: {
-        model: "Plans",
+        model: "Images",
         key: "id",
       },
       onUpdate: "CASCADE",
       onDelete: "CASCADE",
     },
-    amount: {
+    severity: {
       allowNull: false,
+      type: Sequelize.ENUM("low", "medium", "high"),
+    },
+    action_taken: {
+      allowNull: false,
+      type: Sequelize.ENUM("warning", "frozen", "blacklisted"),
+    },
+    charged_amount: {
+      allowNull: true,
       type: Sequelize.DECIMAL(10, 2),
-    },
-    type: {
-      allowNull: false,
-      type: Sequelize.ENUM(
-        "upload_fee",
-        "subscription",
-        "license_fee",
-        "penalty"
-      ),
-    },
-    status: {
-      allowNull: false,
-      type: Sequelize.ENUM("success", "failed", "refunded"),
-    },
-    transaction_id: {
-      allowNull: false,
-      type: Sequelize.STRING,
     },
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE,
       defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
     },
+    updatedAt: {
+      allowNull: false,
+      type: Sequelize.DATE,
+      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+    },
   });
 }
-
 export async function down(queryInterface, Sequelize) {
-  await queryInterface.dropTable("Payments");
+  await queryInterface.dropTable("Violations");
 }

@@ -40,6 +40,7 @@ export default (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Plan",
+      timestamps: true,
     }
   );
   return Plan;
