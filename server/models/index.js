@@ -13,6 +13,7 @@ import vulnerabilitycheckModel from "./vulnerabilitycheck.js";
 import paymentModel from "./payment.js";
 import refundModel from "./refund.js";
 import violationModel from "./violation.js";
+import adminModel from "./admin.js";
 
 dotenv.config();
 
@@ -39,7 +40,9 @@ const VulnerabilityCheck = vulnerabilitycheckModel(sequelize, DataTypes);
 const Payment = paymentModel(sequelize, DataTypes);
 const Refund = refundModel(sequelize, DataTypes);
 const Violation = violationModel(sequelize, DataTypes);
+const Admin = adminModel(sequelize, DataTypes);
 
+// associations
 User.belongsTo(Plan, { foreignKey: "plan_id", as: "plan" });
 Plan.hasMany(User, { foreignKey: "plan_id", as: "users" });
 
@@ -106,8 +109,18 @@ Image.hasMany(Violation, { foreignKey: "image_id", as: "violations" });
 Violation.belongsTo(Image, { foreignKey: "image_id", as: "image" });
 
 // watermark_id - image
-// reviewer_id - license
-// reviewer_id - vulnerabilityCheck
+
+Admin.hasMany(License, { foreignKey: "reviewer_id", as: "license" });
+License.belongsTo(Admin, { foreignKey: "reviewer_id", as: "admins" });
+
+Admin.hasMany(VulnerabilityCheck, {
+  foreignKey: "reviewer_id",
+  as: "vulnerability",
+});
+VulnerabilityCheck.belongsTo(Admin, {
+  foreignKey: "reviewer_id",
+  as: "admins",
+});
 
 export {
   sequelize,
