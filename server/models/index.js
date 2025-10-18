@@ -17,6 +17,7 @@ import adminModel from "./admin.js";
 import likeModel from "./like.js";
 import shareModel from "./share.js";
 import downloadModel from "./download.js";
+import watermarkModel from "./watermark.js";
 
 dotenv.config();
 
@@ -47,6 +48,7 @@ const Admin = adminModel(sequelize, DataTypes);
 const Like = likeModel(sequelize, DataTypes);
 const Share = shareModel(sequelize, DataTypes);
 const Download = downloadModel(sequelize, DataTypes);
+const Watermark = watermarkModel(sequelize, DataTypes);
 
 // associations
 User.belongsTo(Plan, { foreignKey: "plan_id", as: "plan" });
@@ -55,24 +57,11 @@ Plan.hasMany(User, { foreignKey: "plan_id", as: "users" });
 User.hasMany(Subscription, { foreignKey: "user_id", as: "subscriptions" });
 Subscription.belongsTo(User, { foreignKey: "user_id", as: "user" });
 
-User.belongsToMany(Plan, {
-  through: Subscription,
-  foreignKey: "user_id",
-  otherKey: "plan_id",
-  as: "subscribed_plans",
-});
-Plan.belongsToMany(User, {
-  through: Subscription,
-  foreignKey: "plan_id",
-  otherKey: "user_id",
-  as: "subscribers",
-});
+Plan.hasMany(Subscription, { foreignKey: "plan_id", as: "subscriptions" });
+Subscription.belongsTo(Plan, { foreignKey: "plan_id", as: "plan" });
 
 User.hasMany(Image, { foreignKey: "user_id", as: "images" });
 Image.belongsTo(User, { foreignKey: "user_id", as: "user" });
-
-Plan.hasMany(Subscription, { foreignKey: "plan_id", as: "subscriptions" });
-Subscription.belongsTo(Plan, { foreignKey: "plan_id", as: "plan" });
 
 Image.belongsTo(Category, { foreignKey: "category_id", as: "category" });
 Category.hasMany(Image, { foreignKey: "category_id", as: "images" });
@@ -92,6 +81,9 @@ Tag.belongsToMany(Image, {
 
 Image.hasOne(License, { foreignKey: "image_id", as: "license" });
 License.belongsTo(Image, { foreignKey: "image_id", as: "image" });
+
+User.hasMany(License, { foreignKey: "user_id", as: "licenses" });
+License.belongsTo(User, { foreignKey: "user_id", as: "user" });
 
 Image.hasMany(VulnerabilityCheck, {
   foreignKey: "image_id",
@@ -113,8 +105,6 @@ Violation.belongsTo(User, { foreignKey: "user_id", as: "user" });
 
 Image.hasMany(Violation, { foreignKey: "image_id", as: "violations" });
 Violation.belongsTo(Image, { foreignKey: "image_id", as: "image" });
-
-// watermark_id - image
 
 Admin.hasMany(License, { foreignKey: "reviewer_id", as: "license" });
 License.belongsTo(Admin, { foreignKey: "reviewer_id", as: "admins" });
@@ -151,6 +141,12 @@ Download.belongsTo(User, { foreignKey: "user_id", as: "user" });
 Image.hasMany(Download, { foreignKey: "image_id", as: "downloads" });
 Download.belongsTo(Image, { foreignKey: "image_id", as: "image" });
 
+User.hasMany(Watermark, { foreignKey: "user_id", as: "watermarks" });
+Watermark.belongsTo(User, { foreignKey: "user_id", as: "user" });
+
+Watermark.hasMany(Image, { foreignKey: "watermark_id", as: "images" });
+Image.belongsTo(Watermark, { foreignKey: "watermark_id", as: "watermark" });
+
 export {
   sequelize,
   User,
@@ -169,4 +165,5 @@ export {
   Like,
   Share,
   Download,
+  Watermark,
 };
