@@ -14,6 +14,7 @@ import paymentModel from "./payment.js";
 import refundModel from "./refund.js";
 import violationModel from "./violation.js";
 import adminModel from "./admin.js";
+import likeModel from "./like.js";
 
 dotenv.config();
 
@@ -41,6 +42,7 @@ const Payment = paymentModel(sequelize, DataTypes);
 const Refund = refundModel(sequelize, DataTypes);
 const Violation = violationModel(sequelize, DataTypes);
 const Admin = adminModel(sequelize, DataTypes);
+const Like = likeModel(sequelize, DataTypes);
 
 // associations
 User.belongsTo(Plan, { foreignKey: "plan_id", as: "plan" });
@@ -120,6 +122,17 @@ Admin.hasMany(VulnerabilityCheck, {
 VulnerabilityCheck.belongsTo(Admin, {
   foreignKey: "reviewer_id",
   as: "admins",
+});
+
+User.belongsToMany(Image, {
+  through: Like,
+  foreignKey: "user_id",
+  as: "likedImages",
+});
+Image.belongsToMany(User, {
+  through: Like,
+  foreignKey: "image_id",
+  as: "likedByUsers",
 });
 
 export {
