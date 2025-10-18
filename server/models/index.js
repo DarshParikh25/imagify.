@@ -11,6 +11,7 @@ import imagetagModel from "./imagetag.js";
 import licenseModel from "./license.js";
 import vulnerabilitycheckModel from "./vulnerabilitycheck.js";
 import paymentModel from "./payment.js";
+import refundModel from "./refund.js";
 
 dotenv.config();
 
@@ -35,6 +36,7 @@ const ImageTag = imagetagModel(sequelize, DataTypes);
 const License = licenseModel(sequelize, DataTypes);
 const VulnerabilityCheck = vulnerabilitycheckModel(sequelize, DataTypes);
 const Payment = paymentModel(sequelize, DataTypes);
+const Refund = refundModel(sequelize, DataTypes);
 
 User.belongsTo(Plan, { foreignKey: "plan_id", as: "plan" });
 Plan.hasMany(User, { foreignKey: "plan_id", as: "users" });
@@ -92,8 +94,24 @@ Payment.belongsTo(User, { foreignKey: "user_id", as: "user" });
 Plan.hasMany(Payment, { foreignKey: "plan_id", as: "payments" });
 Payment.belongsTo(Plan, { foreignKey: "plan_id", as: "plan" });
 
+Payment.hasMany(Refund, { foreignKey: "payment_id", as: "refunds" });
+Refund.belongsTo(Payment, { foreignKey: "payment_id", as: "payment" });
+
 // watermark_id - image
 // reviewer_id - license
 // reviewer_id - vulnerabilityCheck
 
-export { sequelize, User, Plan, Subscription, Image };
+export {
+  sequelize,
+  User,
+  Plan,
+  Subscription,
+  Image,
+  Category,
+  Tag,
+  ImageTag,
+  License,
+  VulnerabilityCheck,
+  Payment,
+  Refund,
+};
