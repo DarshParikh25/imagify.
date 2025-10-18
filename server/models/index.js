@@ -16,6 +16,7 @@ import violationModel from "./violation.js";
 import adminModel from "./admin.js";
 import likeModel from "./like.js";
 import shareModel from "./share.js";
+import downloadModel from "./download.js";
 
 dotenv.config();
 
@@ -45,6 +46,7 @@ const Violation = violationModel(sequelize, DataTypes);
 const Admin = adminModel(sequelize, DataTypes);
 const Like = likeModel(sequelize, DataTypes);
 const Share = shareModel(sequelize, DataTypes);
+const Download = downloadModel(sequelize, DataTypes);
 
 // associations
 User.belongsTo(Plan, { foreignKey: "plan_id", as: "plan" });
@@ -143,6 +145,12 @@ Share.belongsTo(User, { foreignKey: "user_id", as: "user" });
 Image.hasMany(Share, { foreignKey: "image_id", as: "shares" });
 Share.belongsTo(Image, { foreignKey: "image_id", as: "image" });
 
+User.hasMany(Download, { foreignKey: "user_id", as: "downloads" });
+Download.belongsTo(User, { foreignKey: "user_id", as: "user" });
+
+Image.hasMany(Download, { foreignKey: "image_id", as: "downloads" });
+Download.belongsTo(Image, { foreignKey: "image_id", as: "image" });
+
 export {
   sequelize,
   User,
@@ -160,4 +168,5 @@ export {
   Admin,
   Like,
   Share,
+  Download,
 };
