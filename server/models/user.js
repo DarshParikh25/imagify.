@@ -25,18 +25,22 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.STRING,
       },
       role: {
+        allowNull: false,
         defaultValue: "user",
         type: DataTypes.ENUM("admin", "user"),
       },
       account_status: {
+        allowNull: false,
         type: DataTypes.ENUM("active", "frozen", "blacklisted"),
         defaultValue: "active",
       },
       vulnerability_strikes: {
+        allowNull: false,
         type: DataTypes.INTEGER,
         defaultValue: 0,
       },
       plan_id: {
+        allowNull: false,
         type: DataTypes.INTEGER,
         defaultValue: 1,
       },

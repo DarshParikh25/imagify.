@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { Plan, User } from "../models/index.js";
 
 // Sign Up
 export const signup = async (req, res) => {
@@ -28,7 +29,7 @@ export const signup = async (req, res) => {
     }
 
     // Check whether the user has already signed up earlier or not(const user)
-    const user = await User.findOne({ where: email });
+    const user = await User.findOne({ where: { email } });
     if (user) {
       return res.status(409).json({
         success: false,
@@ -40,17 +41,11 @@ export const signup = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const encryptedPassword = await bcrypt.hash(password, salt);
 
-    const month = new Date().toLocaleString("default", { month: "short" });
-    const year = new Date().getFullYear();
-
     const newUserData = {
       name,
       email,
       password: encryptedPassword,
-      joinedAt: `${month} ${year}`,
     };
-
-    console.log(newUserData.joinedAt);
 
     // Logic to add user data to the PostgreSQL DB
     const newUser = await User.create(newUserData);
@@ -60,17 +55,41 @@ export const signup = async (req, res) => {
       expiresIn: process.env.JWT_EXPIRES_IN || "1d",
     });
 
+    const userDetails = await User.findOne({
+      where: { email },
+      include: [
+        {
+          model: Plan,
+          as: "plan",
+          attributes: [
+            "name",
+            "type",
+            "ai_description",
+            "custom_watermark",
+            "license_upload",
+          ],
+        },
+      ],
+    });
+
     return res.status(201).json({
       success: true,
       message:
         "Signed up successfully! You’re now ready to explore visuals that inspire your imagination.",
       token,
       user: {
-        // details to share to the frontend like name, email, joining month
-        id: newUser.id,
-        name: newUser.name,
-        email: newUser.email,
-        joinedAt: newUser.joinedAt,
+        // details to share to the frontend like name, email, and plan details
+        id: userDetails.id,
+        name: userDetails.name,
+        email: userDetails.email,
+        plan: {
+          id: userDetails.plan_id,
+          name: userDetails.plan.name,
+          type: userDetails.plan.type,
+          ai_description: userDetails.plan.ai_description,
+          custom_watermark: userDetails.plan.custom_watermark,
+          license_upload: userDetails.plan.license_upload,
+        },
       },
     });
   } catch (error) {
@@ -95,7 +114,22 @@ export const login = async (req, res) => {
     }
 
     // Check for the email in the PostgreSQL DB (const existingUser)
-    const existingUser = await User.findOne({ where: email });
+    const existingUser = await User.findOne({
+      where: { email },
+      include: [
+        {
+          model: Plan,
+          as: "plan",
+          attributes: [
+            "name",
+            "type",
+            "ai_description",
+            "custom_watermark",
+            "license_upload",
+          ],
+        },
+      ],
+    });
     if (!existingUser) {
       return res.status(401).json({
         success: false,
@@ -103,7 +137,10 @@ export const login = async (req, res) => {
       });
     }
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = await bcrypt.compare(
+      password,
+      existingUser.password
+    );
     if (!isPasswordValid) {
       return res.status(401).json({
         success: false,
@@ -122,11 +159,18 @@ export const login = async (req, res) => {
         "Access granted! Jump right in and continue your creative journey.",
       token,
       user: {
-        // details to share to the frontend like name, email, joining month
+        // details to share to the frontend like name, email, and plan details
         id: existingUser.id,
         name: existingUser.name,
         email: existingUser.email,
-        joinedAt: existingUser.joinedAt,
+        plan: {
+          id: existingUser.plan.id,
+          name: existingUser.plan.name,
+          type: existingUser.plan.type,
+          ai_description: existingUser.plan.ai_description,
+          custom_watermark: existingUser.plan.custom_watermark,
+          license_upload: existingUser.plan.license_upload,
+        },
       },
     });
   } catch (error) {

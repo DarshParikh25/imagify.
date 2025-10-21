@@ -24,18 +24,22 @@ export async function up(queryInterface, Sequelize) {
       type: Sequelize.STRING,
     },
     role: {
+      allowNull: false,
       type: Sequelize.ENUM("admin", "user"),
       defaultValue: "user",
     },
     account_status: {
+      allowNull: false,
       type: Sequelize.ENUM("active", "frozen", "blacklisted"),
       defaultValue: "active",
     },
     vulnerability_strikes: {
+      allowNull: false,
       type: Sequelize.INTEGER,
       defaultValue: 0,
     },
     plan_id: {
+      allowNull: false,
       type: Sequelize.INTEGER,
       defaultValue: 1,
       references: {
