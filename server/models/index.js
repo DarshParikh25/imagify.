@@ -75,7 +75,7 @@ Image.belongsToMany(Tag, {
 Tag.belongsToMany(Image, {
   through: ImageTag,
   foreignKey: "tag_id",
-  otherKey: "image_key",
+  otherKey: "image_id",
   as: "images",
 });
 

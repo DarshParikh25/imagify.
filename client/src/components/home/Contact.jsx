@@ -40,8 +40,9 @@ const Contact = () => {
           <div className="flex flex-col gap-1">
             <label className="font-bold">Mobile</label>
             <input
-              type="number"
+              type="tel"
               placeholder="Please share your phone number with us!"
+              inputMode="number"
               required
               className="bg-transparent outline-none border-b-2 border-gray-400 focus:border-white transition-all duration-300"
             />
@@ -52,7 +53,7 @@ const Contact = () => {
               name=""
               id=""
               placeholder="Have questions, feedback, or collaboration ideas? Feel free to connect!"
-              className="bg-transparent outline-none border-b-2 border-gray-400 focus:border-white transition-all duration-300"
+              className="bg-transparent outline-none border-b-2 border-gray-400 focus:border-white transition-all duration-300 resize-none"
             ></textarea>
           </div>
           <button

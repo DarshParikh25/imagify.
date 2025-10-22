@@ -22,6 +22,11 @@ export default (sequelize, DataTypes) => {
         defaultValue: null,
         type: DataTypes.INTEGER,
       },
+      public_id: {
+        allowNull: false,
+        unique: true,
+        type: DataTypes.STRING,
+      },
       title: {
         allowNull: false,
         type: DataTypes.STRING,
