@@ -1,4 +1,11 @@
-import { Image, sequelize } from "../models/index.js";
+import {
+  Category,
+  Image,
+  ImageTag,
+  sequelize,
+  Tag,
+  User,
+} from "../models/index.js";
 import { findOrCreateTags } from "../helpers/tag.helper.js";
 import cloudinary from "../utils/cloudinary.js";
 import { findOrCreateCategory } from "../helpers/category.helper.js";
@@ -39,7 +46,7 @@ export const uploadImage = async (req, res) => {
     }
 
     // Check for user
-    const status = checkUserStatus(user_id, transaction);
+    const status = await checkUserStatus(user_id, transaction);
 
     // Check user for vulnerabilities and account status
     if (status === "blacklisted") {
@@ -58,13 +65,21 @@ export const uploadImage = async (req, res) => {
     }
 
     // Check for category existence, if not then create one
-    findOrCreateCategory(category, transaction);
+    const existingCategory = await findOrCreateCategory(category, transaction);
 
     // Upload image to Cloudinary
-    const uploadResponse = await cloudinary.uploader.upload(imageBase64, {
-      folder: "uploads/images/imagify/",
-      resource_type: "images",
-    });
+    let uploadResponse;
+    try {
+      uploadResponse = await cloudinary.uploader.upload(imageBase64, {
+        folder: "uploads/images/imagify/",
+        resource_type: "image",
+      });
+    } catch (cloudErr) {
+      console.error("Cloudinary error:", cloudErr);
+      return res
+        .status(400)
+        .json({ success: false, message: "Cloudinary upload failed" });
+    }
 
     // updated image information
     const imageInfo = {
@@ -84,7 +99,7 @@ export const uploadImage = async (req, res) => {
     const newImage = await Image.create(imageInfo, { transaction });
 
     // Check tags existence, if not then create them
-    findOrCreateTags(tags, newImage.id, transaction);
+    await findOrCreateTags(tags, newImage.id, transaction);
 
     // Commit the changes if everything is fine
     await transaction.commit();
@@ -101,6 +116,84 @@ export const uploadImage = async (req, res) => {
     res.status(500).json({
       success: false,
       error: error.message,
+    });
+  }
+};
+
+export const getImages = async (_req, res) => {
+  try {
+    // const { next_cursor } = req.query;
+
+    // const images = await cloudinary.api.resources({
+    //   resource_type: "image",
+    //   type: "upload",
+    //   max_results: 5,
+    //   ...(next_cursor && { next_cursor }),
+    // });
+
+    // return res.status(200).json({
+    //   success: true,
+    //   count: images.resources.length,
+    //   images: images.resources.map((img) => ({
+    //     public_id: img.public_id,
+    //     url: img.secure_url,
+    //     folder: img.asset_folder,
+    //     created_at: img.created_at,
+    //   })),
+    //   next_cursor: images.next_cursor,
+    // });
+
+    const images = await Image.findAll({
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: ["name", "email"],
+        },
+        {
+          model: Tag,
+          through: ImageTag,
+          as: "tags",
+          attributes: ["name"],
+        },
+        {
+          model: Category,
+          as: "category",
+          attributes: ["name"],
+        },
+      ],
+      // attributes: [
+      //   "id",
+      //   "title",
+      //   "description",
+      //   "is_public",
+      //   "url",
+      //   "thumbnail_url",
+      //   "likes",
+      //   "save_count",
+      //   "download",
+      //   "createdAt",
+      // ],
+      attributes: {
+        exclude: [
+          "category_id",
+          "watermark_id",
+          "public_id",
+          "ai_generated_description",
+          "status",
+          "updatedAt",
+        ],
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      images,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
     });
   }
 };

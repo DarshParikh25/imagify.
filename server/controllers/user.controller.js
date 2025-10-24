@@ -5,8 +5,6 @@ import compare from "../utils/compare.js";
 
 // Sign Up
 export const signup = async (req, res) => {
-  const transaction = sequelize.transaction();
-
   try {
     const { name, email, password, confirmPassword } = req.body;
 
@@ -32,7 +30,7 @@ export const signup = async (req, res) => {
     }
 
     // Check whether the user has already signed up earlier or not(const user)
-    const user = await User.findOne({ where: { email }, transaction });
+    const user = await User.findOne({ where: { email } });
     if (user) {
       return res.status(409).json({
         success: false,
@@ -41,7 +39,7 @@ export const signup = async (req, res) => {
       });
     }
 
-    const encryptedPassword = encrypt(password);
+    const encryptedPassword = await encrypt(password);
 
     const newUserData = {
       name,
@@ -50,7 +48,7 @@ export const signup = async (req, res) => {
     };
 
     // Logic to add user data to the PostgreSQL DB
-    const newUser = await User.create(newUserData, { transaction });
+    const newUser = await User.create(newUserData);
 
     // Logic to create user token using id
     const token = createToken(newUser.id);
@@ -70,10 +68,7 @@ export const signup = async (req, res) => {
           ],
         },
       ],
-      transaction,
     });
-
-    await transaction.commit();
 
     return res.status(201).json({
       success: true,
@@ -96,8 +91,6 @@ export const signup = async (req, res) => {
       },
     });
   } catch (error) {
-    await transaction.rollback();
-
     return res.status(400).json({
       success: false,
       message: error.message,
@@ -107,8 +100,6 @@ export const signup = async (req, res) => {
 
 // Login
 export const login = async (req, res) => {
-  const transaction = sequelize.transaction();
-
   try {
     const { name, email, password } = req.body;
 
@@ -135,7 +126,6 @@ export const login = async (req, res) => {
           ],
         },
       ],
-      transaction,
     });
     if (!existingUser) {
       return res.status(401).json({
@@ -144,7 +134,7 @@ export const login = async (req, res) => {
       });
     }
 
-    const isPasswordValid = compare(password, existingUser.password);
+    const isPasswordValid = await compare(password, existingUser.password);
     if (!isPasswordValid) {
       return res.status(401).json({
         success: false,
@@ -154,8 +144,6 @@ export const login = async (req, res) => {
 
     // Logic to create the token using id
     const token = createToken(existingUser.id);
-
-    await transaction.commit();
 
     return res.status(200).json({
       success: true,
@@ -178,8 +166,6 @@ export const login = async (req, res) => {
       },
     });
   } catch (error) {
-    await transaction.rollback();
-
     return res.status(400).json({
       success: false,
       message: error.message,
