@@ -10,6 +10,7 @@ import { findOrCreateTags } from "../helpers/tag.helper.js";
 import cloudinary from "../utils/cloudinary.js";
 import { findOrCreateCategory } from "../helpers/category.helper.js";
 import { checkUserStatus } from "../helpers/status.helper.js";
+import { Op } from "sequelize";
 
 // Upload image
 export const uploadImage = async (req, res) => {
@@ -120,6 +121,7 @@ export const uploadImage = async (req, res) => {
   }
 };
 
+// Get all images
 export const getImages = async (_req, res) => {
   try {
     // const { next_cursor } = req.query;
@@ -144,6 +146,7 @@ export const getImages = async (_req, res) => {
     // });
 
     const images = await Image.findAll({
+      where: { is_public: true, status: "approved" },
       include: [
         {
           model: User,
@@ -185,6 +188,138 @@ export const getImages = async (_req, res) => {
         ],
       },
     });
+
+    return res.status(200).json({
+      success: true,
+      images,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// Get images of a specific user
+export const getImagesByUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const firstOptParam = req.params.is_public;
+    const secondOptParam = req.params.status;
+    const { user_id } = req;
+
+    const user = await User.findByPk(id);
+
+    // If user not found
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User does not exists.",
+      });
+    }
+
+    const isOwner = Number(user_id) === Number(id);
+
+    let is_public, status;
+    const validVisibility = ["public", "private"];
+    const validStatuses = ["approved", "pending", "rejected"];
+
+    // check for is_public parameter
+    if (firstOptParam && !validVisibility.includes(firstOptParam)) {
+      return res.status(400).json({
+        success: false,
+        message: `Invalid is_public parameter '${firstOptParam}'. Allowed: [public, private].`,
+      });
+    }
+    is_public = firstOptParam || "public";
+
+    // check for status parameter
+    if (secondOptParam && !validStatuses.includes(secondOptParam)) {
+      return res.status(400).json({
+        success: false,
+        message: `Invalid status parameter '${secondOptParam}'. Allowed: [approved, pending, rejected].`,
+      });
+    }
+    status = secondOptParam || "approved";
+
+    // handle rejected images (never allowed to view)
+    if (status === "rejected") {
+      return res.status(403).json({
+        success: false,
+        message: "Rejected images cannot be viewed.",
+      });
+    }
+
+    // Convert is_public to boolean
+    const isPublicValue =
+      is_public === "public"
+        ? true
+        : is_public === "private"
+        ? false
+        : undefined; // if not provided
+
+    // Unauthorized access control
+    if (!isOwner) {
+      if (!isPublicValue || (status && status !== "approved")) {
+        return res.status(403).json({
+          success: false,
+          message:
+            "Access denied. You can only view approved public images of other users.",
+        });
+      }
+    }
+
+    // Dynamic where condition
+    const whereCondition = isOwner
+      ? {
+          ...(isPublicValue !== undefined && { is_public: isPublicValue }),
+          status: status || "approved",
+        }
+      : {
+          is_public: true,
+          status: "approved",
+        };
+
+    const images = await Image.findAll({
+      where: { user_id: id, ...whereCondition },
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: ["name", "email"],
+        },
+        {
+          model: Tag,
+          through: ImageTag,
+          as: "tags",
+          attributes: ["name"],
+        },
+        {
+          model: Category,
+          as: "category",
+          attributes: ["name"],
+        },
+      ],
+      attributes: {
+        exclude: [
+          "category_id",
+          "watermark_id",
+          "public_id",
+          "ai_generated_description",
+          // "status",
+          "updatedAt",
+        ],
+      },
+    });
+
+    // If no image found
+    if (!images || images.length === 0) {
+      return res.status(200).json({
+        success: true,
+        message: "No images found.",
+      });
+    }
 
     return res.status(200).json({
       success: true,
